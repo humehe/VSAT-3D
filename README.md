@@ -2,7 +2,7 @@
 
 VSAT-3D is part of the Valparaíso Stacking Analysis Tool (VSAT), it provide a series of tools for selecting, stacking, and analyzing 3D spectra. It is intended for stacking samples of spectra belonging to large extragalactic catalogs by selecting subsamples of galaxies defined by their available properties (_e.g. redshift, stellar mass, star formation rate_) being possible to generate diverse (_e.g. median, average, weighted average, histogram_) composite spectra. However, it is possible to also use VSAT on smaller datasets containing any type of astronomical object.
 
-![Alt text](./Images/Scheme1?raw=true "3D datacube Stacked spectra Scheme.")
+![Alt text](./Figures/Scheme1?raw=true "3D datacube Stacked spectra Scheme.")
 
 ## Content
 
@@ -37,15 +37,15 @@ It is possible to ...
 
 
 
-![Alt text](./Images/step.jpg?raw=true "Pre-processing of stacked spetra.")
+![Alt text](./Figures/step.jpg?raw=true "Pre-processing of stacked spetra.")
 
 ## Line fitting
 VSAT-3D uses lmfit for line fitting and ...
 
-![Alt text](./Images/FitSingle.jpg?raw=true "Pre-processing of stacked spetra.")
+![Alt text](./Figures/FitSingle.jpg?raw=true "Pre-processing of stacked spetra.")
 
 
-![Alt text](./Images/FitMultiple.jpg?raw=true "Pre-processing of stacked spetra.")
+![Alt text](./Figures/FitMultiple.jpg?raw=true "Pre-processing of stacked spetra.")
 ## Example
 
 The following example will stack a sample of 27 galaxies belonging to the Valpara\'iso ALMA/APEX Line Emission Survey(VALES). The sample of spectra can be downloaded from the 
@@ -96,18 +96,18 @@ To plot the generated composite spectra (_e.g. average, median weighted average_
 ```
 This will generate and save a pdf plot file (```~/Example/Stack_Results/COSMOS/PLOTS/RESULTS/```) including the median, average, and weighted average in the upper panel and an histogram of the number of spectra combined per wavelength element in the lower panel.
 
-![Alt text](./Images/Stacked.jpg?raw=true "Stacked spectra computed COSMOS field.")
+![Alt text](./Figures/Stacked.jpg?raw=true "Stacked spectra computed COSMOS field.")
 
 **plt_cnt_stk_spc** = ```True``` generates a plot of all the individual spectra used to generate the composite spectra (upper panel) with the composite specra in the bottom panel.
 
-![Alt text](./Images/Stacked-Contribution.jpg?raw=true "Stacked spectra COSMOS field.")
+![Alt text](./Figures/Stacked-Contribution.jpg?raw=true "Stacked spectra COSMOS field.")
 
 **plt_ind_spec** = ```True``` will generate individual plots (```~/Example/Stack_Results/COSMOS/PLOTS/IND//FRGRD/0-23/```) of all the spectra used to generate the compsite spectra. 
 
-![Alt text](./Images/Spec-Individual.jpg?raw=true "Stacked spectra COSMOS field.")
+![Alt text](./Figures/Spec-Individual.jpg?raw=true "Stacked spectra COSMOS field.")
 
 It will also generate a detailed plot of every step of the pre-processing procedure prior to the stacking process of all the combined spectra.
-![Alt text](./Images/Spec-Step.jpg?raw=true "Stacked spectra COSMOS field.")
+![Alt text](./Figures/Spec-Step.jpg?raw=true "Stacked spectra COSMOS field.")
 
 ###### "Line Fitting"
 
@@ -121,11 +121,11 @@ All the line initial and fitted parameters (line center, amplitude, line width) 
 
 L05 corresponds to 
 
-![Alt text](./Images/LINE-FIT-COSMOS-avg-c-smt-G-Ind-Splt.jpg?raw=true "Stacked spectra COSMOS field.")	
+![Alt text](./Figures/LINE-FIT-COSMOS-avg-c-smt-G-Ind-Splt.jpg?raw=true "Stacked spectra COSMOS field.")	
 ```python
 os.clear()
 ```
-![Alt text](./Images/LINE-FIT-COSMOS-avg-c-smt-G-Mlt-Splt.jpg?raw=true "Stacked spectra COSMOS field.")	
+![Alt text](./Figures/LINE-FIT-COSMOS-avg-c-smt-G-Mlt-Splt.jpg?raw=true "Stacked spectra COSMOS field.")	
 
 ###### "Bootstrap"
 To compute the Confidence Inteervals (CIs) of the composite spectra it is possible to bootstrap the spectra used in the stacking process. 
@@ -171,7 +171,7 @@ and then
 os.clear()
 ```
 
-![Alt text](./Images/P_Fg_COSMOS_BS_MST_100_med-c-smt-1150-1900.jpg?raw=true "Stacked spectra COSMOS field.")	
+![Alt text](./Figures/P_Fg_COSMOS_BS_MST_100_med-c-smt-1150-1900.jpg?raw=true "Stacked spectra COSMOS field.")	
 
 This plot will be saved in ```~/Example/Stack_Results/COSMOS/BOOTSTRAP/PLOTS/RESULTS/```.
 **Notice that this plots is only useful to visualize the distribution of spectra generated through the bootstrap.** To properly generate CIs of the emission/absorption EW lines measured above, all the bootstrapped spectra should be fitted to obtain a distribution of EW. This can be easily done with:
