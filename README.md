@@ -2,7 +2,7 @@
 
 VSAT-3D is part of the Valparaíso Stacking Analysis Tool (VSAT), it provide a series of tools for selecting, stacking, and analyzing 3D spectra. It is intended for stacking samples of spectra belonging to large extragalactic catalogs by selecting subsamples of galaxies defined by their available properties (_e.g. redshift, stellar mass, star formation rate_) being possible to generate diverse (_e.g. median, average, weighted average, histogram_) composite spectra. However, it is possible to also use VSAT on smaller datasets containing any type of astronomical object.
 
-![Alt text](./Images/bootstrap.jpg?raw=true "Stacked spectra computed through median values including CIs.")
+![Alt text](./Images/Scheme1?raw=true "3D datacube Stacked spectra Scheme.")
 
 ## Content
 
