@@ -54,39 +54,113 @@ The following example will stack a sample of 27 galaxies belonging to the Valpar
 ###### "Stacking"
 The following snippet will stack galaxies from the COSMOS field. 
 
-First . 
+First, we stack the subsample. 
 
 ```python
-os.clear()
+for element in itlpd(channel_width,sbsmn,sbsms):
+
+	nchan         = (2*subcube_width /element[0])+1
+	slice_nmb     = int(np.ceil(((nchan-1)/2)))#-1 #19 
+	#Results
+	stk_hme_dir  = home + 'Stack_Results-'+ line +'-3D/'
+	img_dir_res  = stk_hme_dir + 'IMAGES/'  #+ str(element[0]) +'/'
+	stp_dir_res  = stk_hme_dir + 'STAMPS/'  + str(element[0]) +'/'
+	tbl_dir_res  = stk_hme_dir + 'TABLES/'  + str(element[0]) +'/'
+	plt_dir_res  = stk_hme_dir + 'PLOTS/'   + str(element[0]) +'/'
+	stk_dir_res  = stk_hme_dir + 'STACKS/'  + str(element[0]) +'/'
+	DIR_CAT_IPT  = [cats_dir]
+	DIR_SPC_IPT  = [img_dir]
+	DIR_RES      = [stk_hme_dir,stp_dir_res,tbl_dir_res,plt_dir_res,stk_dir_res]
+	Check_directories(cat_ipt_tbl,cat_parent)
+
+	cat_tbl       = cat_dir + 'CII_Sources_HATLAS-' + line + '-' + str(element[2]) + '-' +str(element[1]) + tbl_ext_ipt
+
+	print colored('Info from table: ' + str(cat_tbl) + ' ' + str(tbl_format_ipt),'cyan')
+	print
+
+	Cat_Ipt_Tbl   = Table_Read(cat_tbl,tbl_format_ipt)
+	fits          = Cat_Ipt_Tbl[2]
+	delta_nu      = Cat_Ipt_Tbl[4]
+	z             = Cat_Ipt_Tbl[8]  #[5]
+	Lfir          = Cat_Ipt_Tbl[11] #[6]
+	nu            = Cat_Ipt_Tbl[13] #[14]
+	vel           = Cat_Ipt_Tbl[14] #[15]
+	num_obj       = len(Cat_Ipt_Tbl[0])
+
+	cubetoread = [(img_dir_res + image_fits+ '.'+str(element[0]) +'kms.fits') for image_fits in (fits)]
+	print colored('Reading files as : '+str(cubetoread[0]),'yellow')
+
+	weights        = np.arange(0,len(fits),1)
+	weights        = np.asarray(Lfir)
+
+	stk_ofn_prfx   = cat_parent + '-' + str(element[2]) + '-' +str(element[1])
+
+	Stack_Res     = Cube_Stack(cubetoread,stk_ofn_prfx,weights,
+					sig_clp     = False,sufix=element[0],freq_obs_f=restframe_frequency,
+					stack_lite  = stack_light,
+					cp_bs_hdrs  = True,
+					stt_var     = True,
+					spc_wdt_dir = element[0],
+					stt_mst_tbl = Cat_Ipt_Tbl,stt_hdr=element[2])
+	#############################Add Headers to Stack Results##############################
+	name = cat_parent + '-' + str(element[1])
+	name = cat_parent + '-' + str(element[2]) + '-' +str(element[1])
+	bs_func = ''
+	sufix = element[0]
+	spc_dir_dst = stk_dir_res
+
+	print
+	print "\n".join([file for file in Stack_Res])
+	print
+
+	##############################Add Headers to Stack Results##############################
 ```
-This will generate the following tables saved in the tables directory (```~/Example/Stack_Results/COSMOS/TABLES/FRGRD```):
-- P.csv
+This will generate the following fits files in the results directory (```~/Example/Stack_Results-13CO-3D/STACKS/250/```):
 
-- 
-Similarly ```Select_Subsamples``` can be used to define subsamples of objects restricted by any given object property. 
+```
+ - CII_HATLAS-RDS-0-stk-avg-250kms.fits 
+ - CII_HATLAS-RDS-0-stk-med-250kms.fits 
+ - CII_HATLAS-RDS-0-stk-sum-250kms.fits
+```
 
-Next we stack the subsample. 
+If ```stack_lite = False``` additional compsoiite spectra will be gnerated:
+
+```
+ - CII_HATLAS-RDS-0-stk-3sh-250kms.fits   
+ - CII_HATLAS-RDS-0-stk-hsw-250kms.fits   
+ - CII_HATLAS-RDS-0-stk-1sh-250kms.fits   
+ - CII_HATLAS-RDS-0-stk-3sl-250kms.fits   
+ - CII_HATLAS-RDS-0-stk-suw-250kms.fits   
+ - CII_HATLAS-RDS-0-stk-1sl-250kms.fits   
+ - CII_HATLAS-RDS-0-stk-p25-250kms.fits   
+ - CII_HATLAS-RDS-0-stk-wsu-250kms.fits   
+ - CII_HATLAS-RDS-0-stk-2sh-250kms.fits   
+ - CII_HATLAS-RDS-0-stk-avw-250kms.fits   
+ - CII_HATLAS-RDS-0-stk-p75-250kms.fits   
+ - CII_HATLAS-RDS-0-stk-2sl-250kms.fits   
+ - CII_HATLAS-RDS-0-stk-hst-250kms.fits   
+ - CII_HATLAS-RDS-0-stk-std-250kms.fits   
+```
+
+
+###### "Stamps"
+Stamps will be created:
 
 ```python
-os.clear()
+		Slices_Files = Cube_Spatial_Extract_Circular(cube2bplot,
+													X0_F,Y0_F,
+													mask_radi_px_in,mask_radi_as_in,
+													mask_radi_px_ot,mask_radi_as_ot,
+													mask_radi_px_ms,mask_radi_as_ms,
+													x_ref=X0_F_0,y_ref=Y0_F_0,verbose=True,plt_slcs=True,frq_r=restframe_frequency, prefix=prefix_line,
+													Splt_Hdr_Cmt_cp=element[2],
+													dest_dir_stp = stp_dir_res)
+		Plot_Cube_Slices(Slices_Files[0],Slices_Files[1],Slices_Files[2],
+						Slices_Files[3],Slices_Files[4],Slices_Files[5],
+						frq_r=restframe_frequency, prefix=prefix_line,dest_dir_plt=stm_dir_plt)
 ```
-This will generate the following fits files in the results directory (```~/Example/Stack_Results/COSMOS/STACKS/RESULTS/```):
-
-```
- - P.fits
-```
-
-It will also generate ```*-c.fits```and ```*-smt.fits```files if ```pst_cnt``` and ```smt_spc_pst ``` are set to ```True```.
-
-Auxiliary files generated during the stacking process are saved in ```~/Example/Stack_Results/COSMOS/STACKS/LAST-FITS/RESULTS```
-and can be deleted. These files include a copy of the original spectra, continuum corrected, smoothed and interpolated spectra, continuum fit log files and .tex files with the spectra used in the stacking process. Notice that a same file can be used in differeent stackings and hence the -int.fits files include a number of the interpolated version.
-
-###### "Stats"
-Statistical values from the stacked galaxies can be obtained and saved in tables (```~/Example/Stack_Results/COSMOS/TABLES/STATS```) through:
-
-```python
-os.clear()
-```
+![Alt text](./Figures/Cube-Slices1.jpg?raw=true "Stacked spectra computed COSMOS field.")
+![Alt text](./Figures/Cube-Slices2.jpg?raw=true "Stacked spectra computed COSMOS field.")
 
 ###### "Plots"
 To plot the generated composite spectra (_e.g. average, median weighted average_)including post-processed versions (_continuum normalized and smoothed_) can bee generated with:
