@@ -42,18 +42,12 @@ After the composite spectra are generated, it is possible to fit the line emmiss
 ###### "Stacking"
 By default the lite version is defined (```stack_lite=True```) and generates sum, median and average composite spectra, ```stack_lite=False``` will create additional composite spectra (_e.g. average weighted, histograms, peercentiles_). Through ```sigma_clipping=True```it is possible to exlude outliers that exceed n-times (```sigma_cut```) the mean/median ``` sigma_cen_fct ``` of the stacked pixels. 
 
+###### "Fitting"
+The flux emission are computed on circular region defined by ```apertures_measu``` while ```apertures_inner``` and ```apertures_outer```defines a region useful for nooise estimations.  
+
 ###### "MCMC"
 To compute the Confident Intervals (CIs) of the flux measurments it is poossible to run Monte Carlo simulations defined by the flux measurements previously computed and by the statistical properties of the used sample. ```iterations_mc``` define the nuumer of repetititions, ```plot_dist_hist=True``` will create hiistograms of the simulations if the lines defined by ```line1```and ```line2```.
 
-![Alt text](./Figures/step.jpg?raw=true "Pre-processing of stacked spetra.")
-
-## Line fitting
-VSAT-3D uses lmfit for line fitting and ...
-
-![Alt text](./Figures/FitSingle.jpg?raw=true "Pre-processing of stacked spetra.")
-
-
-![Alt text](./Figures/FitMultiple.jpg?raw=true "Pre-processing of stacked spetra.")
 ## Example
 
 The following example will stack a sample of 27 galaxies belonging to the Valpara\'iso ALMA/APEX Line Emission Survey(VALES). The sample of spectra can be downloaded from the 
