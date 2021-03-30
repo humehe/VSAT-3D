@@ -6,36 +6,44 @@ VSAT-3D is part of the Valparaíso Stacking Analysis Tool (VSAT), it provide a s
 
 ## Content
 
-1. .py:
+1. Fnc_Stk_Dir.py:
    - Location of the input catalogue and spectral data. 
    - Parameters for selecting subsamples of galaxies according to their physical properties.
-   - Stacking and Boootstrap parameters.
-   - Location of the resulting products of the stacking analyses _e.g. tables, plots, pre-stacking processed spectra and stacked spectra_.
+   - MCMC parameters.
+   - Location of the resulting products of the stacking analyses _e.g. stamps, tables, plots,and stacked spectra_.
 
-2. .py:
-   - Math functions (e.g. cosmological constants, gaussian, lorentzian and voigt profiles for line emmision/absorption fitting) needed throughout the stacking analysis.
+2. Fnc_Stk_Mth.py:
+   - Math functions (e.g. cosmological constants, gaussian profiles for line fitting) needed throughout the stacking analysis.
 
-3. .py 
-   - Functions to read, write and modify different tables. 
+3. Fnc_Stk_Spc.py 
+   - Tools for modyfing datacubes including _e.g. masking, adding missing frequencies, eextract regions etc_
 
-4. .py 
-   - Funtions to access and modify (add, modify, delete) fits headers.
+4. Fnc_Stk_Stt.py 
+   - Statistical funtions for datacubes.
 
-5. .py
+5. Fnc_Stk_Plt.py
    - Plot templates used throughout the stacking analysis. 
 
+6. Fnc_Stk_Stk.py
+   - Core of the 3D stacking tool.
 
+7. Fnc_Stk_Fts.py
+   - Funtions to access and modify (add, modify, delete) fits headers
+
+8. Fnc_Stk_Tbl.py
+   - Functions to read, write and modify different tables.
+ 
+ 9. Fnc_Stk_Utl.py
+   - Auxiliary functions for the stacking analysis.
 
 ## Parameters
-It is possible to ...
+After the composite spectra are generated, it is possible to fit the line emmission in the channel where the peeak of the line emmission is located or in a collapsed image using the channels covered by +- 1 fwhm line width. To achieve this datacubes with smaller dimensions are created 
 
-###### "Pre-1"
-**pre_** 
+###### "Stacking"
+By default the lite version is defined (```stack_lite=True```) and generates sum, median and average composite spectra, ```stack_lite=False``` will create additional composite spectra (_e.g. average weighted, histograms, peercentiles_). Through ```sigma_clipping=True```it is possible to exlude outliers that exceed n-times (```sigma_cut```) the mean/median ``` sigma_cen_fct ``` of the stacked pixels. 
 
-###### "Pre-2"
-**pre_smooth** (_bool, optional_) enables the spectral smoothing, **pre_smooth_shape** selects the smothing kernel (_i.e. gaussian,boxcar,mexican_) and **pre_smooth_size** sets the kernel size in pixel units.
-
-
+###### "MCMC"
+To compute the Confident Intervals (CIs) of the flux measurments it is poossible to run Monte Carlo simulations defined by the flux measurements previously computed and by the statistical properties of the used sample. ```iterations_mc``` define the nuumer of repetititions, ```plot_dist_hist=True``` will create hiistograms of the simulations if the lines defined by ```line1```and ```line2```.
 
 ![Alt text](./Figures/step.jpg?raw=true "Pre-processing of stacked spetra.")
 
