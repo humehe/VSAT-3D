@@ -98,8 +98,7 @@ If ```stack_lite = False``` additional compsoiite spectra will be gnerated:
 
 
 ###### "Stamps"
-To measure the source's flux, smaller circular stamps along the veloocitty/freqncy axis can be created. The following will create a 15'', 10'' and 20''
-datacubes.
+To measure the source's flux, smaller circular datacubes along the veloocity/frequency axis can be created. The following will create a 15'', 10'' and 20'' datacubes. In this example these regions use the image center (```X0_F, Y0_F```) as reference but this can be defined with the ```X_C,Y_C```parameters.
 
 ```python
 		Slices_Files = Cube_Spatial_Extract_Circular(cube2bplot,
@@ -113,7 +112,7 @@ datacubes.
 							Splt_Hdr_Cmt_cp=element[2],
 							dest_dir_stp = stp_dir_res)
 ```
-The dtaacubes will be located in the ```~/Example/Stack_Results-13CO-3D/STAMPS/250/ ```directory, and correspond to three diffeten components: the defined regions (crc), the data (dta), and the masked regions (msk).
+The datacubes will be located in the ```~/Example/Stack_Results-13CO-3D/STAMPS/250/ ```directory, and correspond to three different component: ms, in and ot and two different datacubes (per region) will be the defined  (crc), the data (dta), and the masked regions (msk).
 
 ```
  - /Users/hugo15/ALMA/HATLAS/Stack_Results-13CO-3D/STAMPS/250/13CO-CII_HATLAS-RDS-0-stk-med-250kms-crc-10as_crc_in.fits
@@ -142,100 +141,135 @@ Plot_Cube_Slices(Slices_Files[0],Slices_Files[1],Slices_Files[2],
 ![Alt text](./Figures/Cube-Slices2.jpg?raw=true "Stacked spectra computed COSMOS field.")
 
 ###### "Line Fit"
-To plot the generated composite spectra (_e.g. average, median weighted average_)including post-processed versions (_continuum normalized and smoothed_) can bee generated with:
+It is possible to generate a spectral profile in any of the generated regions. 
 
 ```python
+cube2bplot6  = stp_dir_res + prefix_line + 'CII_HATLAS-'+ str(element[2]) + '-' +str(element[1]) + '-stk-' + element[3] + '-' + str(element[0]) + 'kms-crc-' + str(mask_radi_as_ms) + 'as_dta_ms.fits'
+
+fit_1D_Gaussian(cube2bplot6,verbose=True,amplitude=0.001,
+	mean=-60,stddev=element[0]/2. * np.sqrt(2. *np.log(2.)),
+	slc_nmb=slice_nmb,max_rng=True,cubewdthv=element[0],
+	rst_frq=restframe_frequency,frq_r=restframe_frequency,
+	prefix=prefix_line,dest_dir_plt = ana_dir_plt)
+```
+
+![Alt text](./Figures/13CO-Line-Profile-stk-avg-250kms-crc-15as_msk_ms-1DGF.jpg?raw=true "Stacked spectra computed COSMOS field.")
+
+From which a gaussian profile can be fitted.
 
 ```
-This will generate and save a pdf plot file (```~/Example/Stack_Results/COSMOS/PLOTS/RESULTS/```) including the median, average, and weighted average in the upper panel and an histogram of the number of spectra combined per wavelength element in the lower panel.
+python
+Cube_fit_1D_Gaussian(cube2bplot6,
+			Cube2bPlot_1D_Err  = cube2bplot4        ,verbose = True   ,
+			amplitude          = 0.001              ,mean    = -60    ,stddev    = element[0]/2. * np.sqrt(2. * np.log(2.)),
+			slc_nmb            = slice_nmb          ,max_rng = True   ,cubewdthv = element[0]  ,
+			rst_frq            = restframe_frequency,frq_r   = restframe_frequency,
+			fit_max_1d         = False              ,							
+			fit_type           = 'scipy',
+			prefix             = line+'-'           ,
+			dest_dir_plt       = ana_dir_plt)#astropy,scipy,lmfit
 
-![Alt text](./Figures/Stacked.jpg?raw=true "Stacked spectra computed COSMOS field.")
+```
 
-**plt_cnt_stk_spc** = ```True``` generates a plot of all the individual spectra used to generate the composite spectra (upper panel) with the composite specra in the bottom panel.
 
-![Alt text](./Figures/Stacked-Contribution.jpg?raw=true "Stacked spectra COSMOS field.")
+![Alt text](./Figures/13CO-Line-Profile-stk-avg-250kms-crc-15as_msk_ms-1DGF-fit.jpg?raw=true "Stacked spectra computed COSMOS field.")
 
-**plt_ind_spec** = ```True``` will generate individual plots (```~/Example/Stack_Results/COSMOS/PLOTS/IND//FRGRD/0-23/```) of all the spectra used to generate the compsite spectra. 
+Using this spectral profile a 2D image of the central channel at which the peak of emission is located and a collapsed 2D image considering +- fwhm of the line fitted:
 
-![Alt text](./Figures/Spec-Individual.jpg?raw=true "Stacked spectra COSMOS field.")
 
-It will also generate a detailed plot of every step of the pre-processing procedure prior to the stacking process of all the combined spectra.
-![Alt text](./Figures/Spec-Step.jpg?raw=true "Stacked spectra COSMOS field.")
+![Alt text](./Figures/13CO-CII_HATLAS-RDS-0-stk-avg-250kms-crc-15as_msk_ms-2DS.jpg?raw=true "Stacked spectra computed COSMOS field.")
+![Alt text](./Figures/13CO-CII_HATLAS-RDS-0-stk-avg-250kms-crc-15as_msk_ms-2DC-avg.jpg?raw=true "Stacked spectra computed COSMOS field.")
 
-###### "Line Fitting"
+```
+python
+Slices_Files = Cube_Spatial_Extract_Circular_2D(cubeclp2b_stmp,
+						X0_F,Y0_F,
+						mask_radi_px_in,mask_radi_as_in,
+						mask_radi_px_ot,mask_radi_as_ot,
+						mask_radi_px_ms,mask_radi_as_ms,
+						x_ref=X0_F_0,y_ref=Y0_F_0,
+						verbose=True,
+						frq_r=restframe_frequency, prefix=prefix_line,
+						Splt_Hdr_Cmt_cp=element[2],
+						dest_dir_stp = stp_dir_res)
+```
+###### "Noise"
+It is also possible to generate coollapsed _noise_ collapsed datacuubes outside the line region, assuming the fitted line fwhm.
+
+```
+python
+Cube_fit_2D_Gaussian_Noise(cube2bplot6,
+				slc_nmb      = None               ,clp_fnc     = function ,
+				SIGMAX_f2DG  = fwhm2sigma(9*tms_sgm)      ,SIGMAY_f2DG = fwhm2sigma(9*tms_sgm)      ,
+				displ_s_f    = True               ,verbose     = True,circular=True,
+				x_ref        = X0_F_0             ,y_ref       = Y0_F_0,
+				rst_frq      = restframe_frequency,frq_r       = restframe_frequency,
+				sgm_wgth_tms = 'slice_1fw',
+				dest_dir_plt = ana_dir_plt,
+				dest_dir_clp = stp_dir_res,
+				ref_wdt_lne  = spc_wdl_ref       ,ref_wdt_fle = cube2bplot6_ref)
+```
+
+![Alt text](./Figures/12CO-CII_HATLAS-RDS-0-stk-avg-250kms-crc-15as_dta_ms-2DCGF-sum-nse.jpg?raw=true "Stacked spectra COSMOS field.")
+
+Finally a 2D gaussian fit can be performed. 
+
+```
+python
+Cube_fit_2D_Gaussian(cube2bplot6,
+			Cube2bFit_Err = cube2bplotmskerr,				
+			slc_nmb       = slice_nmb01        ,clp_fnc     = function ,
+			sgm_fnc       = element[3]         ,
+			SIGMAX_f2DG   = fwhm2sigma(9*tms_sgm)      ,SIGMAY_f2DG = fwhm2sigma(9*tms_sgm)      ,
+			displ_s_f     = True               ,verbose     = True,circular=True,
+			x_ref         = X0_F_0             ,y_ref       = Y0_F_0,
+			rst_frq       = restframe_frequency,frq_r       = restframe_frequency,
+			sgm_wgth_tms  = 'slice_1fw',#1sgm-2,3,4,5sgm,slice_1fw,slice_2fw
+			fit_type      = 'scipy'            ,src_sze_fxd = fixed_size,
+			dest_dir_plt  = ana_dir_plt,
+			ref_wdt_lne   = spc_wdl_ref        ,ref_wdt_fle = cube2bplot6_ref,
+			Splt_Hdr_Cmt_cp=element[2]          ,dest_dir_clp  = stp_dir_res)
+
+```
+This will gnerate a figure with three panels inckuding the image, the moodel and the residuals.
+
+![Alt text](./Figures/12CO-CII_HATLAS-RDS-0-stk-med-250kms-crc-15as_dta_ms-2DCGF-CSL8-RSD.jpg?raw=true "Stacked spectra COSMOS field.")
+
+
+###### "Stats"
+Stats on the datacubes can be obtained through:
 
 ```python
-os.clear()
+Cube_Stat(cube2bplot_ms,redshift=z_sample_med,rst_frq=restframe_frequency,slc_nmb=slc_nmb1,cubewdthv=int(element[0]),frq_r=restframe_frequency,dest_dir_tbl=tbl_dir_res)
 ```
 
-All the line initial and fitted parameters (line center, amplitude, line width) will be saved in the corresponding composite fits header. For example for Lyman alpha the following headers will be created:
+This will generate asciii and csv tables in the ```~/Example/Stack_Results-12CO-3D/TABLES/250/``` directory.
 
- - L05_CGLC=    1207.832434368174 / Lya1215.7 Ctr  1GF Crctlmfit
-
-L05 corresponds to 
-
-![Alt text](./Figures/LINE-FIT-COSMOS-avg-c-smt-G-Ind-Splt.jpg?raw=true "Stacked spectra COSMOS field.")	
-```python
-os.clear()
 ```
-![Alt text](./Figures/LINE-FIT-COSMOS-avg-c-smt-G-Mlt-Splt.jpg?raw=true "Stacked spectra COSMOS field.")	
+12CO-CII_HATLAS-RDS_B-0-stk-med-250kms-crc-15as_msk_ms-stt.dat
+12CO-CII_HATLAS-RDS_B-0-stk-med-250kms-crc-15as_msk_ms-stt.csv
+```
 
-###### "Bootstrap"
+###### "MCMC"
 To compute the Confidence Inteervals (CIs) of the composite spectra it is possible to bootstrap the spectra used in the stacking process. 
 
-**bs_iteration_num** defines the number of bootstrap repetitionsm, **bs_percentage** defines the percentaje of elements to be resampled in each iteration (_default=1_), **bs_function**  defines the function used for the bootstrap.
-
-It is possible to complete a broken BS process. 
-**comp_BS_run**	(_bool_) enables the BS completion
-**bst_brk_int** sets the reinizilation step at which the process broke, **bst_brk_lst** sets the BS number repetitions (_default=bs_iteration_num_)  #Last iteration step (default = bs_iteration_num) and **crts_BS_otb** (_bool_) creates the BS master table only for Completed BS Repetitions(_= bs_iteration_num_) but without master table. 
-
-
-To generate the CIs, first we define:
-
-```python
-prefixF       = 'P_Fg_' + CAT_PARENT + '_0-40-ss-zf_B-3-44-ss-zf_F-3-44-ss-sep_as-'
-tables        = [frg_dir_res + prefixF + '0-23.csv']
-bs_function_s = [ '_med-c-smt']
+```
+python
+MCMC_generator(iterations_mc,line1,line2,method,error,sbsms,sbsmn,spc_wdt_dir=cw,mask_radi_as_ms=mask_radi_as_ms)
 ```
 
-Then we run the BS process:
+This will generate a series of tables in the ```~/Example/Stack_Results-13CO-3D/TABLES/``` directory containg the MCMC statistics:
 
 ```
-os.clear()
-
+Sources-MC-50000-HATLAS-12CO-13CO-RDS_B-0-M3.dat
+Sources-MC-50000-HATLAS-12CO-13CO-RDS_B-0-M3.csv
 ```
+ And a plot containing the MCMC results.
 
-This process will create into the ```~/BOOTSTRAP/STACKS/``` directory three diferent subdirectories: 
- - ```~/BOOTSTRAP/STACKS/LAST-FITS``` contains all the files used to generate stacked boootstrap in each repetition with a similar structure similar to  ```~/Example/Stack_Results/COSMOS/STACKS/RESULTS/``` directory and described above in the **Stacking** section.
- - ```~/BOOTSTRAP/STACKS/STATS-STR``` contains all the stacked boootstrap repetitions (_e.g. FILE_NAME-BS-1-stk-avg.fits, FILE_NAME-BS-2-stk-avg.fits, ... FILE_NAME-BS-N-stk-avg.fits_) stacked boootstrap repetitions.
- - ```~/BOOTSTRAP/STACKS/STATS-BST``` contains the bootsrap stacked spectra considering all the _N_ stacked boootstrap repetitions.
+![Alt text](./Figures/Sources-MC-50000-HATLAS-12CO-13CO-RDS_B-0-M3.jpg?raw=true "Stacked spectra COSMOS field.")	
 
-Finally, to plot the Stacked spectra including the CIs generated thorugh the BS process; first we define:
 
-```
-prefixF 	= 'P_Fg_' + CAT_PARENT + '_0-40-ss-zf_B-3-44-ss-zf_F-3-44-ss-sep_as-'
-separation      = ['0-23'] 			#sep_as
-bs_function_s   = ['med-c-smt']
-```
 
-and then
-
-```
-os.clear()
-```
-
-![Alt text](./Figures/P_Fg_COSMOS_BS_MST_100_med-c-smt-1150-1900.jpg?raw=true "Stacked spectra COSMOS field.")	
-
-This plot will be saved in ```~/Example/Stack_Results/COSMOS/BOOTSTRAP/PLOTS/RESULTS/```.
-**Notice that this plots is only useful to visualize the distribution of spectra generated through the bootstrap.** To properly generate CIs of the emission/absorption EW lines measured above, all the bootstrapped spectra should be fitted to obtain a distribution of EW. This can be easily done with:
-
-```
-os.clear()
-```
-If ```ivl_fts_hdr=True``` then the initial guess values will be read from the fits files headers, otherwise they will be set by the defualt line quantities defined in the Line_Dictionary.py file .
-This will generate individual plots for each line profile fitted, located in ```~/Example/Stack_Results/COSMOS/BOOTSTRAP/PLOTS/INDIVIDUAL-BS/```.
-
-As explained above all the fitted parameters (_i.e. line properties (amplitude, sigma, line center), fitted values_) are saved in the corresponding composite spectra fits headers.
 ## Dependencies
 Currently VSAT works only with astropy 2.0 as it relies on pyraf continuum task for continuum normalization. However a new version will be released dropping this dependency.
  - [astropy](https://www.astropy.org)
