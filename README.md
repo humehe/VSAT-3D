@@ -1,6 +1,6 @@
 # VSAT-3D
 
-VSAT-3D is part of the Valparaíso Stacking Analysis Tool (VSAT), it provide a series of tools for selecting, stacking, and analyzing 3D spectra. It is intended for stacking samples of spectra belonging to large extragalactic catalogs by selecting subsamples of galaxies defined by their available properties (_e.g. redshift, stellar mass, star formation rate_) being possible to generate diverse (_e.g. median, average, weighted average, histogram_) composite spectra. However, it is possible to also use VSAT on smaller datasets containing any type of astronomical object.
+VSAT-3D is part of the Valparaíso Stacking Analysis Tool (VSAT), it provide a series of tools for selecting, stacking, and analyzing 3D spectra. It is intended for stacking samples of datacubes belonging to large extragalactic catalogs by selecting subsamples of galaxies defined by their available properties (_e.g. redshift, stellar mass, star formation rate_) being possible to generate diverse (_e.g. median, average, weighted average, histogram_) composite spectra. However, it is possible to also use VSAT on smaller datasets containing any type of astronomical object.
 
 ![Alt text](./Figures/Scheme1.jpg?raw=true "3D datacube Stacked spectra Scheme.")
 
@@ -37,7 +37,7 @@ VSAT-3D is part of the Valparaíso Stacking Analysis Tool (VSAT), it provide a s
    - Auxiliary functions for the stacking analysis.
 
 ## Parameters
-After the composite spectra are generated, it is possible to fit the line emmission in the channel where the peeak of the line emmission is located or in a collapsed image using the channels covered by +- 1 fwhm line width. To achieve this datacubes with smaller dimensions are created 
+After the composite spectra are generated, it is possible to fit the line emmission in the channel where the peeak of the line emmission is located or in a collapsed image using the channels covered by +- 1 fwhm line width. To achieve this, datacubes with smaller dimensions are created 
 
 ###### "Stacking"
 By default the lite version is defined (```stack_lite=True```) and generates sum, median and average composite spectra, ```stack_lite=False``` will create additional composite spectra (_e.g. average weighted, histograms, peercentiles_). Through ```sigma_clipping=True```it is possible to exlude outliers that exceed n-times (```sigma_cut```) the mean/median ``` sigma_cen_fct ``` of the stacked pixels. 
@@ -115,15 +115,15 @@ To measure the source's flux, smaller circular datacubes along the veloocity/fre
 The datacubes will be located in the ```~/Example/Stack_Results-13CO-3D/STAMPS/250/ ```directory, and correspond to three different component: ms, in and ot and two different datacubes (per region) will be the defined  (crc), the data (dta), and the masked regions (msk).
 
 ```
- - /Users/hugo15/ALMA/HATLAS/Stack_Results-13CO-3D/STAMPS/250/13CO-CII_HATLAS-RDS-0-stk-med-250kms-crc-10as_crc_in.fits
- - /Users/hugo15/ALMA/HATLAS/Stack_Results-13CO-3D/STAMPS/250/13CO-CII_HATLAS-RDS-0-stk-med-250kms-crc-10as_dta_in.fits
- - /Users/hugo15/ALMA/HATLAS/Stack_Results-13CO-3D/STAMPS/250/13CO-CII_HATLAS-RDS-0-stk-med-250kms-crc-10as_msk_in.fits
- - /Users/hugo15/ALMA/HATLAS/Stack_Results-13CO-3D/STAMPS/250/13CO-CII_HATLAS-RDS-0-stk-med-250kms-crc-20as_crc_ot.fits
- - /Users/hugo15/ALMA/HATLAS/Stack_Results-13CO-3D/STAMPS/250/13CO-CII_HATLAS-RDS-0-stk-med-250kms-crc-20as_dta_ot.fits
- - /Users/hugo15/ALMA/HATLAS/Stack_Results-13CO-3D/STAMPS/250/13CO-CII_HATLAS-RDS-0-stk-med-250kms-crc-20as_msk_ot.fits
- - /Users/hugo15/ALMA/HATLAS/Stack_Results-13CO-3D/STAMPS/250/13CO-CII_HATLAS-RDS-0-stk-med-250kms-crc-15as_crc_ms.fits
- - /Users/hugo15/ALMA/HATLAS/Stack_Results-13CO-3D/STAMPS/250/13CO-CII_HATLAS-RDS-0-stk-med-250kms-crc-15as_dta_ms.fits
- - /Users/hugo15/ALMA/HATLAS/Stack_Results-13CO-3D/STAMPS/250/13CO-CII_HATLAS-RDS-0-stk-med-250kms-crc-15as_msk_ms.fits
+ - 13CO-CII_HATLAS-RDS-0-stk-med-250kms-crc-10as_crc_in.fits
+ - 13CO-CII_HATLAS-RDS-0-stk-med-250kms-crc-10as_dta_in.fits
+ - 13CO-CII_HATLAS-RDS-0-stk-med-250kms-crc-10as_msk_in.fits
+ - 13CO-CII_HATLAS-RDS-0-stk-med-250kms-crc-20as_crc_ot.fits
+ - 13CO-CII_HATLAS-RDS-0-stk-med-250kms-crc-20as_dta_ot.fits
+ - 13CO-CII_HATLAS-RDS-0-stk-med-250kms-crc-20as_msk_ot.fits
+ - 13CO-CII_HATLAS-RDS-0-stk-med-250kms-crc-15as_crc_ms.fits
+ - 13CO-CII_HATLAS-RDS-0-stk-med-250kms-crc-15as_dta_ms.fits
+ - 13CO-CII_HATLAS-RDS-0-stk-med-250kms-crc-15as_msk_ms.fits
 ```
 
 Which can then be plotted to generate individual stamps of each channel cube. 
@@ -262,12 +262,16 @@ This will generate a series of tables in the ```~/Example/Stack_Results-13CO-3D/
 
 ```
 Sources-MC-50000-HATLAS-12CO-13CO-RDS_B-0-M3.dat
-Sources-MC-50000-HATLAS-12CO-13CO-RDS_B-0-M3.csv
+CII_HATLAS-RDS_B-MS-3-Z-0-2-stk-250kms-crc-15as_msk_ms-stt.dat
+CII_HATLAS-RDS_B-MS-3-FLX-0-2-stk-250kms-crc-15as_msk_ms-stt.dat
+CII_HATLAS-RDS_B-MS-3-LUM-LOG-0-2-stk-250kms-crc-15as_msk_ms-stt.dat
+CII_HATLAS-RDS_B-MS-3-RDS_B-0-2-stk-250kms-crc-15as_msk_ms-stt.dat
+CII_HATLAS-12CO-13CO-RDS_B-MS-3-MC-50000-3-FLX-0-2-stk-250kms-crc-15as_msk_ms-stt.dat
+CII_HATLAS-12CO-13CO-RDS_B-MS-3-MC-50000-3-LUM-0-2-stk-250kms-crc-15as_msk_ms-stt.dat
 ```
  And a plot containing the MCMC results.
 
 ![Alt text](./Figures/Sources-MC-50000-HATLAS-12CO-13CO-RDS_B-0-M3.jpg?raw=true "Stacked spectra COSMOS field.")	
-
 
 
 ## Dependencies
