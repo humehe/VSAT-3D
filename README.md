@@ -54,13 +54,9 @@ The following example will stack a sample of 27 galaxies belonging to the Valpar
 [zenodo repository](). Then by simple running ```python Example.py``` will complete all the following steps below.
 
 ###### "Stacking"
-The following snippet will stack galaxies from the COSMOS field. 
-
-First, we stack the subsample. 
+The following snippet will stack the galaxies.
 
 ```python
-
-
 Stack_Res     = Cube_Stack(cubetoread,stk_ofn_prfx,weights,
 				sig_clp     = False,sufix=element[0],freq_obs_f=restframe_frequency,
 				stack_lite  = stack_light,
@@ -100,17 +96,18 @@ If ```stack_lite = False``` additional compsoiite spectra will be gnerated:
 ###### "Stamps"
 To measure the source's flux, smaller circular datacubes along the veloocity/frequency axis can be created. The following will create a 15'', 10'' and 20'' datacubes. In this example these regions use the image center (```X0_F, Y0_F```) as reference but this can be defined with the ```X_C,Y_C```parameters.
 
-```python
-		Slices_Files = Cube_Spatial_Extract_Circular(cube2bplot,
-							X0_F,Y0_F,
-							mask_radi_px_in,mask_radi_as_in,
-							mask_radi_px_ot,mask_radi_as_ot,
-							mask_radi_px_ms,mask_radi_as_ms,		
-							x_ref=X0_F_0,y_ref=Y0_F_0,
-							verbose=True,
-							frq_r=restframe_frequency, prefix=prefix_line,
-							Splt_Hdr_Cmt_cp=element[2],
-							dest_dir_stp = stp_dir_res)
+```
+python
+Slices_Files = Cube_Spatial_Extract_Circular(cube2bplot,
+						X0_F,Y0_F,
+						mask_radi_px_in,mask_radi_as_in,
+						mask_radi_px_ot,mask_radi_as_ot,
+						mask_radi_px_ms,mask_radi_as_ms,		
+						x_ref=X0_F_0,y_ref=Y0_F_0,
+						verbose=True,
+						frq_r=restframe_frequency, prefix=prefix_line,
+						Splt_Hdr_Cmt_cp=element[2],
+						dest_dir_stp = stp_dir_res)
 ```
 The datacubes will be located in the ```~/Example/Stack_Results-13CO-3D/STAMPS/250/ ```directory, and correspond to three different component: ms, in and ot and two different datacubes (per region) will be the defined  (crc), the data (dta), and the masked regions (msk).
 
@@ -143,9 +140,8 @@ Plot_Cube_Slices(Slices_Files[0],Slices_Files[1],Slices_Files[2],
 ###### "Line Fit"
 It is possible to generate a spectral profile in any of the generated regions. 
 
-```python
-cube2bplot6  = stp_dir_res + prefix_line + 'CII_HATLAS-'+ str(element[2]) + '-' +str(element[1]) + '-stk-' + element[3] + '-' + str(element[0]) + 'kms-crc-' + str(mask_radi_as_ms) + 'as_dta_ms.fits'
-
+```
+python
 fit_1D_Gaussian(cube2bplot6,verbose=True,amplitude=0.001,
 	mean=-60,stddev=element[0]/2. * np.sqrt(2. *np.log(2.)),
 	slc_nmb=slice_nmb,max_rng=True,cubewdthv=element[0],
