@@ -135,7 +135,7 @@ Plot_Cube_Slices(Slices_Files[0],Slices_Files[1],Slices_Files[2],
 ```
 
 
-![Alt text](./Figures/Cube-Slices1.jpg?raw=true "Stacked spectra computed COSMOS field.") ![Alt text](./Figures/Cube-Slices2.jpg?raw=true "Stacked spectra computed COSMOS field.")
+![Alt text](./Figures/Cube-Slices1.jpg?raw=true "Stacked spectra computed COSMOS field.",width=50% height=50%) ![Alt text](./Figures/Cube-Slices2.jpg?raw=true "Stacked spectra computed COSMOS field.")
 
 ###### "Line Fit"
 First to identify the locatioion of the maximum flux in the spectral axis.
