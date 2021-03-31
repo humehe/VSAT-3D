@@ -37,16 +37,19 @@ VSAT-3D is part of the Valparaíso Stacking Analysis Tool (VSAT), it provide a s
    - Auxiliary functions for the stacking analysis.
 
 ## Parameters
-After the composite spectra are generated, it is possible to fit the line emmission in the channel where the peeak of the line emmission is located or in a collapsed image using the channels covered by +- 1 fwhm line width. To achieve this, datacubes with smaller dimensions are created 
+VSAT-3D generates composite datacubes combining them following a channel by channel pixel by pixel strategy. At this moment it is only possible to comibine fits files which have the same spectral/veolicity resolutio, although this does not necessary means they possess the same number of channels wich can be easily corrected with VSAT. VSAT was created for combining image fits files created with CASA from ALMA interferometric observations, however it is possible to combine 3D datcubes from any other instrument (_i.e. IFU_). After the composite datacubes are generated, it is possible to measure the flux of a source through a gaussian model. 
 
 ###### "Stacking"
-By default the lite version is defined (```stack_lite=True```) and generates sum, median and average composite spectra, ```stack_lite=False``` will create additional composite spectra (_e.g. average weighted, histograms, peercentiles_). Through ```sigma_clipping=True```it is possible to exlude outliers that exceed n-times (```sigma_cut```) the mean/median ``` sigma_cen_fct ``` of the stacked pixels. 
+There are two different options to use the stacking procedure a _lite_ version (```stack_lite=True```) which will generate _sum, median and average_ compositte datacubes and a _full_ version (```stack_lite=False```) which additionally will create _histograms, weighted average, percentiles_ composite datacubes. By default the lite version is defined. Through ```sigma_clipping=True```it is possible to exlude outliers that exceed n-times (```sigma_cut```) the mean/median ``` sigma_cen_fct ``` of the stacked pixels. 
 
-###### "Fitting"
-The flux emission are computed on circular region defined by ```apertures_measu``` while ```apertures_inner``` and ```apertures_outer```defines a region useful for nooise estimations.  
+###### "Stamps"
+To measure the flux it is possible to create smaller datacubes ("_stamps_") around any partticular _ra, dec_ position withiin a circular region. ```apertures_measu``` defines the flux measurement regioin, while ```apertures_inner``` and ```apertures_outer```define an outter ring useful for noise estimations.  
+
+###### "Fitting"e
+The flux estimation is computed analytically through a 3D-gauussian model. First the spectrral/velociity location of the maximum flux emission is determined through a 1D gaussian model, althoough it is possible to fix the channel at which the peak is located. Then the flux contained in a region previously defined by ```apertures_measu```is computed through a 2D gaussian profile to obtain the size ($\sigma_{x,y}$) and the amplitude (_A_).
 
 ###### "MCMC"
-To compute the Confident Intervals (CIs) of the flux measurments it is poossible to run Monte Carlo simulations defined by the flux measurements previously computed and by the statistical properties of the used sample. ```iterations_mc``` define the nuumer of repetititions, ```plot_dist_hist=True``` will create hiistograms of the simulations if the lines defined by ```line1```and ```line2```.
+To compute the Confident Intervals (CIs) of the flux measurments it is possible to run Monte Carlo simulations defined by the flux measurements previously computed and by the statistical properties of the used sample. ```iterations_mc``` define the nuumer of repetititions, ```plot_dist_hist=True``` will create hiistograms of the simulations if the lines defined by ```line1```and ```line2```.
 
 ## Example
 
