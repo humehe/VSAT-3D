@@ -135,7 +135,8 @@ Plot_Cube_Slices(Slices_Files[0],Slices_Files[1],Slices_Files[2],
 ```
 
 
-<img src="./Figures/Cube-Slices1.jpg" width=50% height=50%>
+<img src="./Figures/Cube-Slices1.jpg" width=50% height=50%><img src="./Figures/Cube-Slices2.jpg" width=50% height=50%>
+
 
 
 ###### "Line Fit"
