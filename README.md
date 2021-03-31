@@ -173,11 +173,9 @@ Cube_fit_1D_Gaussian(cube2bplot6,
 
 ![Alt text](./Figures/13CO-Line-Profile-stk-avg-250kms-crc-15as_msk_ms-1DGF-fit.jpg?raw=true "Stacked spectra computed COSMOS field.")
 
-After this, to assess the channel at which the maximum was identified a 2D image can be generated and a collapsed 2D image considering the channaled defined by the fwhm previously fitted.
+After this an image of the central channel at which the flux maximum is located and a collapsed image considering the channalesd defined by the fwhm previously fitted can be created.
 
-
-![Alt text](./Figures/13CO-CII_HATLAS-RDS-0-stk-avg-250kms-crc-15as_msk_ms-2DS.jpg?raw=true "Stacked spectra computed COSMOS field.")
-![Alt text](./Figures/13CO-CII_HATLAS-RDS-0-stk-avg-250kms-crc-15as_msk_ms-2DC-avg.jpg?raw=true "Stacked spectra computed COSMOS field.")
+<img src="./Figures/13CO-CII_HATLAS-RDS-0-stk-avg-250kms-crc-15as_msk_ms-2DS.jpg" width=50% height=50%><img src="./Figures/13CO-CII_HATLAS-RDS-0-stk-avg-250kms-crc-15as_msk_ms-2DC-avg.jpg" width=50% height=50%>
 
 ```
 python
