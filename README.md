@@ -45,7 +45,7 @@ There are two different options to use the stacking procedure a _lite_ version (
 ###### "Stamps"
 To measure the flux it is possible to create smaller datacubes ("_stamps_") around any partticular _ra, dec_ position withiin a circular region. ```apertures_measu``` defines the flux measurement regioin, while ```apertures_inner``` and ```apertures_outer```define an outter ring useful for noise estimations.  
 
-###### "Fitting"e
+###### "Fitting"
 The flux estimation is computed analytically through a 3D-gauussian model. First the spectrral/velociity location of the maximum flux emission is determined through a 1D gaussian model, althoough it is possible to fix the channel at which the peak is located. Then the flux contained in a region previously defined by ```apertures_measu```is computed through a 2D gaussian profile to obtain the size ($\sigma_{x,y}$) and the amplitude (_A_).
 
 ###### "MCMC"
@@ -53,8 +53,7 @@ To compute the Confident Intervals (CIs) of the flux measurments it is possible 
 
 ## Example
 
-The following example will stack a sample of 27 galaxies belonging to the Valpara\'iso ALMA/APEX Line Emission Survey(VALES). The sample of spectra can be downloaded from the 
-[zenodo repository](). Then by simple running ```python Example.py``` will complete all the following steps below.
+The Exaample.py script contains an example too stack a sample of 27 galaxies belonging to the Valpara\'iso ALMA/APEX Line Emission Survey(VALES). The sample of spectra can be downloaded from the [zenodo repository](). Then by simple running ```python Example.py``` will complete all the following steps below. The following  snippets are extracts contained in the Example.py file and will guide you through the file. 
 
 ###### "Stacking"
 The following snippet will stack the galaxies.
