@@ -78,20 +78,20 @@ This will generate the following fits files in the results directory (```~/Examp
 If ```stack_lite = False``` additional compsoiite spectra will be gnerated:
 
 ```
- - CII_HATLAS-RDS-0-stk-3sh-250kms.fits   
- - CII_HATLAS-RDS-0-stk-hsw-250kms.fits   
- - CII_HATLAS-RDS-0-stk-1sh-250kms.fits   
- - CII_HATLAS-RDS-0-stk-3sl-250kms.fits   
- - CII_HATLAS-RDS-0-stk-suw-250kms.fits   
- - CII_HATLAS-RDS-0-stk-1sl-250kms.fits   
- - CII_HATLAS-RDS-0-stk-p25-250kms.fits   
- - CII_HATLAS-RDS-0-stk-wsu-250kms.fits   
- - CII_HATLAS-RDS-0-stk-2sh-250kms.fits   
- - CII_HATLAS-RDS-0-stk-avw-250kms.fits   
- - CII_HATLAS-RDS-0-stk-p75-250kms.fits   
- - CII_HATLAS-RDS-0-stk-2sl-250kms.fits   
  - CII_HATLAS-RDS-0-stk-hst-250kms.fits   
- - CII_HATLAS-RDS-0-stk-std-250kms.fits   
+ - CII_HATLAS-RDS-0-stk-std-250kms.fits  
+ - CII_HATLAS-RDS-0-stk-hsw-250kms.fits
+ - CII_HATLAS-RDS-0-stk-suw-250kms.fits
+ - CII_HATLAS-RDS-0-stk-wsu-250kms.fits   
+ - CII_HATLAS-RDS-0-stk-avw-250kms.fits 
+ - CII_HATLAS-RDS-0-stk-1sl-250kms.fits
+ - CII_HATLAS-RDS-0-stk-1sh-250kms.fits
+ - CII_HATLAS-RDS-0-stk-2sl-250kms.fits   
+ - CII_HATLAS-RDS-0-stk-2sh-250kms.fits
+ - CII_HATLAS-RDS-0-stk-3sl-250kms.fits  
+ - CII_HATLAS-RDS-0-stk-3sh-250kms.fits
+ - CII_HATLAS-RDS-0-stk-p25-250kms.fits  
+ - CII_HATLAS-RDS-0-stk-p75-250kms.fits    
 ```
 
 
@@ -140,7 +140,7 @@ Plot_Cube_Slices(Slices_Files[0],Slices_Files[1],Slices_Files[2],
 ![Alt text](./Figures/Cube-Slices2.jpg?raw=true "Stacked spectra computed COSMOS field.")
 
 ###### "Line Fit"
-It is possible to generate a spectral profile in any of the generated regions. 
+First to identify the locatioion of the maximum flux in the spectral axis.
 
 ```
 python
@@ -153,7 +153,8 @@ fit_1D_Gaussian(cube2bplot6,verbose=True,amplitude=0.001,
 
 ![Alt text](./Figures/13CO-Line-Profile-stk-avg-250kms-crc-15as_msk_ms-1DGF.jpg?raw=true "Stacked spectra computed COSMOS field.")
 
-From which a gaussian profile can be fitted.
+
+Then a 1D gaussian profile is itted.
 
 ```
 python
@@ -172,7 +173,7 @@ Cube_fit_1D_Gaussian(cube2bplot6,
 
 ![Alt text](./Figures/13CO-Line-Profile-stk-avg-250kms-crc-15as_msk_ms-1DGF-fit.jpg?raw=true "Stacked spectra computed COSMOS field.")
 
-Using this spectral profile a 2D image of the central channel at which the peak of emission is located and a collapsed 2D image considering +- fwhm of the line fitted:
+After this, to assess the channel at which the maximum was identified a 2D image can be generated and a collapsed 2D image considering the channaled defined by the fwhm previously fitted.
 
 
 ![Alt text](./Figures/13CO-CII_HATLAS-RDS-0-stk-avg-250kms-crc-15as_msk_ms-2DS.jpg?raw=true "Stacked spectra computed COSMOS field.")
@@ -192,7 +193,7 @@ Slices_Files = Cube_Spatial_Extract_Circular_2D(cubeclp2b_stmp,
 						dest_dir_stp = stp_dir_res)
 ```
 ###### "Noise"
-It is also possible to generate coollapsed _noise_ collapsed datacuubes outside the line region, assuming the fitted line fwhm.
+To assess the noise level outside the channels where the line is lcoated _noise_ collapsed image can be created considering the same number of channels defined by  line fwhm fittted before.
 
 ```
 python
@@ -270,6 +271,9 @@ CII_HATLAS-12CO-13CO-RDS_B-MS-3-MC-50000-3-LUM-0-2-stk-250kms-crc-15as_msk_ms-st
  And a plot containing the MCMC results.
 
 ![Alt text](./Figures/Sources-MC-50000-HATLAS-12CO-13CO-RDS_B-0-M3.jpg?raw=true "Stacked spectra COSMOS field.")	
+
+###### "Synthetic datacubes"
+To assess the systematic errors of the flux measurements synthetic datacubes can be simulated mimicking the observational conditions. 
 
 
 ## Dependencies
