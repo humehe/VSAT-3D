@@ -135,7 +135,7 @@ Plot_Cube_Slices(Slices_Files[0],Slices_Files[1],Slices_Files[2],
 ```
 
 
-<img src="./Figures/Cube-Slices1.jpg" width=50% height=50%><img src="./Figures/Cube-Slices2.jpg" width=50% height=50%>
+<img src="./Figures/Slices1.jpg" width=50% height=50%><img src="./Figures/Slices2.jpg" width=50% height=50%>
 
 
 
@@ -151,7 +151,7 @@ fit_1D_Gaussian(cube2bplot6,verbose=True,amplitude=0.001,
 	prefix=prefix_line,dest_dir_plt = ana_dir_plt)
 ```
 
-![Alt text](./Figures/13CO-Line-Profile-stk-avg-250kms-crc-15as_msk_ms-1DGF.jpg?raw=true "Stacked spectra computed COSMOS field.")
+![Alt text](./Figures/12CO-12CO-CII_HATLAS-RDS_B-0-stk-avg-250kms-crc-10as_msk_in-1DGF.jpg?raw=true "Stacked spectra computed COSMOS field.")
 
 
 Then a 1D gaussian profile is itted.
@@ -171,12 +171,15 @@ Cube_fit_1D_Gaussian(cube2bplot6,
 ```
 
 
-![Alt text](./Figures/13CO-Line-Profile-stk-avg-250kms-crc-15as_msk_ms-1DGF-fit.jpg?raw=true "Stacked spectra computed COSMOS field.")
+![Alt text](./Figures/12CO-12CO-CII_HATLAS-RDS_B-0-stk-avg-250kms-crc-15as_msk_ms-2DS.jpg?raw=true "Stacked spectra computed COSMOS field.")
 
 After this an image of the central channel at which the flux maximum is located and a collapsed image considering the channalesd defined by the fwhm previously fitted can be created.
 
-<img src="./Figures/13CO-CII_HATLAS-RDS-0-stk-avg-250kms-crc-15as_msk_ms-2DS.jpg" width=50% height=50%><img src="./Figures/13CO-CII_HATLAS-RDS-0-stk-avg-250kms-crc-15as_msk_ms-2DC-avg.jpg" width=50% height=50%>
+<img src="./Figures/12CO-12CO-CII_HATLAS-RDS_B-0-stk-avg-250kms-crc-15as_msk_ms-2DS.jpg" width=50% height=50%><img src="./Figures/12CO-12CO-CII_HATLAS-RDS_B-0-stk-avg-250kms-crc-15as_msk_ms-2DC-sum.jpg" width=50% height=50%>
 
+It can also be created considering the original fits file area.
+
+<img src="./Figures/12CO-CII_HATLAS-RDS_B-0-stk-avg-250kms-2DS.jpg" width=50% height=50%><img src="./Figures/12CO-CII_HATLAS-RDS_B-0-stk-avg-250kms-2DC-sum.jpg" width=50% height=50%>
 ```
 python
 Slices_Files = Cube_Spatial_Extract_Circular_2D(cubeclp2b_stmp,
@@ -228,9 +231,10 @@ Cube_fit_2D_Gaussian(cube2bplot6,
 			Splt_Hdr_Cmt_cp=element[2]          ,dest_dir_clp  = stp_dir_res)
 
 ```
-This will gnerate a figure with three panels inckuding the image, the moodel and the residuals.
+This will generate a figure with three panels inckuding the image, the moodel and the residuals. Again this can be computed in a collapsed image or in a single channel. 
 
 ![Alt text](./Figures/12CO-CII_HATLAS-RDS-0-stk-med-250kms-crc-15as_dta_ms-2DCGF-CSL8-RSD.jpg?raw=true "Stacked spectra COSMOS field.")
+
 
 
 ###### "Stats"
