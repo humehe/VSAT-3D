@@ -272,7 +272,7 @@ CII_HATLAS-12CO-13CO-RDS_B-MS-3-MC-50000-3-LUM-0-2-stk-250kms-crc-15as_msk_ms-st
 Notice that to ruun the MCMC process, stacking and fitting for 12CO and 13CO are needed, or simply repeat ```line1```and ```line2``` parameters.
 
 ###### "Synthetic datacubes"
-To assess the systematic errors of the flux measurements synthetic datacubes can be simulated mimicking the observational conditions. 
+To assess the systematic errors of the flux measurements synthetic datacubes can be simulated mimicking the observational conditions. See [VSAT-Syn](https://github.com/humehe/VSAT-Syn) for details.
 
 
 ## Dependencies
