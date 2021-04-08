@@ -276,7 +276,8 @@ To assess the systematic errors of the flux measurements synthetic datacubes can
 
 
 ## Dependencies
-Currently VSAT works only with astropy 2.0 as it relies on pyraf continuum task for continuum normalization. However a new version will be released dropping this dependency.
+Currently VSAT works only with astropy 2.0 and python 2.X. However a new version compatible wiith python 3.X and more recent astropy versions will be soon released dropping this dependency.
+
  - [astropy](https://www.astropy.org)
  - [bottleneck](https://pypi.org/project/Bottleneck/)
  - [pandas](https://pandas.pydata.org)
