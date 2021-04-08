@@ -53,7 +53,7 @@ To compute the Confident Intervals (CIs) of the flux measurments it is possible 
 
 ## Example
 
-The Exaample.py script contains an example too stack a sample of 27 galaxies belonging to the Valpara\'iso ALMA/APEX Line Emission Survey(VALES). The sample of spectra can be downloaded from the [zenodo repository](). Then by simple running ```python Example.py``` will complete all the following steps below. The following  snippets are extracts contained in the Example.py file and will guide you through the file. 
+The Example.py script contains an example too stack a sample of 27 galaxies belonging to the Valparaíso ALMA/APEX Line Emission Survey(VALES). The sample of spectra can be downloaded from the [zenodo repository](https://zenodo.org/record/4671101#.YG5xTS35TOQ). Then by simple running ```python Example.py``` will complete all the following steps below. The following  snippets are extracts contained in the Example.py file and will guide you through the file. 
 
 ###### "Stacking"
 The following snippet will stack the galaxies.
@@ -169,11 +169,11 @@ Cube_fit_1D_Gaussian(cube2bplot6,
 
 ![Alt text](./Figures/12CO-CII_HATLAS-RDS_B-0-stk-avg-250kms-crc-15as_dta_ms-1DGF.jpg?raw=true "Stacked spectra computed COSMOS field.")
 
-After this an image of the central channel at which the flux maximum is located and a collapsed image considering the channalesd defined by the fwhm previously fitted can be created.
+Next, an image of the central channel at which the flux maximum is located and a collapsed image considering the channales defined by the fwhm previously fitted can be created.
 
 <img src="./Figures/12CO-12CO-CII_HATLAS-RDS_B-0-stk-avg-250kms-crc-15as_msk_ms-2DS.jpg" width=50% height=50%><img src="./Figures/12CO-12CO-CII_HATLAS-RDS_B-0-stk-avg-250kms-crc-15as_msk_ms-2DC-sum.jpg" width=50% height=50%>
 
-It can also be created considering the original fits file area.
+These images can also be created considering the original fits file area.
 
 <img src="./Figures/12CO-CII_HATLAS-RDS_B-0-stk-avg-250kms-2DS.jpg" width=50% height=50%><img src="./Figures/12CO-CII_HATLAS-RDS_B-0-stk-avg-250kms-2DC-sum.jpg" width=50% height=50%>
 ```
@@ -192,8 +192,7 @@ Slices_Files = Cube_Spatial_Extract_Circular_2D(cubeclp2b_stmp,
 ###### "Noise"
 To assess the noise level outside the channels where the line is lcoated _noise_ collapsed image can be created considering the same number of channels defined by  line fwhm fittted before.
 
-```
-python
+```python
 Cube_fit_2D_Gaussian_Noise(cube2bplot6,
 				slc_nmb      = None               ,clp_fnc     = function ,
 				SIGMAX_f2DG  = fwhm2sigma(9*tms_sgm)      ,SIGMAY_f2DG = fwhm2sigma(9*tms_sgm)      ,
@@ -227,20 +226,20 @@ Cube_fit_2D_Gaussian(cube2bplot6,
 			Splt_Hdr_Cmt_cp=element[2]          ,dest_dir_clp  = stp_dir_res)
 
 ```
-This will generate a figure with three panels inckuding the image, the moodel and the residuals. Again this can be computed in a collapsed image or in a single channel. 
+This will generate a figure with three panels including the image, the moodel and the residuals. Again this can be computed in a collapsed image or in a single channel. 
 
 ![Alt text](./Figures/12CO-CII_HATLAS-RDS-0-stk-med-250kms-crc-15as_dta_ms-2DCGF-CSL8-RSD.jpg?raw=true "Stacked spectra COSMOS field.")
 
 
 
 ###### "Stats"
-Stats on the datacubes can be obtained through:
+Stats on the different datacubes can be obtained through:
 
 ```python
 Cube_Stat(cube2bplot_ms,redshift=z_sample_med,rst_frq=restframe_frequency,slc_nmb=slc_nmb1,cubewdthv=int(element[0]),frq_r=restframe_frequency,dest_dir_tbl=tbl_dir_res)
 ```
 
-This will generate asciii and csv tables in the ```~/Example/Stack_Results-12CO-3D/TABLES/250/``` directory.
+This will generate asciii and csv tables in the ```~/Example/Stack_Results-12CO-3D/TABLES/250/``` directory for the defined measure, inner and outter regions which can be used to estimate Sigma to Noise Ratios (SNR).
 
 ```
 12CO-CII_HATLAS-RDS_B-0-stk-med-250kms-crc-15as_msk_ms-stt.dat
@@ -269,6 +268,8 @@ CII_HATLAS-12CO-13CO-RDS_B-MS-3-MC-50000-3-LUM-0-2-stk-250kms-crc-15as_msk_ms-st
  And a plot containing the MCMC results.
 
 ![Alt text](./Figures/Sources-MC-50000-HATLAS-12CO-13CO-RDS_B-0-M3.jpg?raw=true "Stacked spectra COSMOS field.")	
+
+Notice that to ruun the MCMC process, stacking and fitting for 12CO and 13CO are needed, or simply repeat ```line1```and ```line2``` parameters.
 
 ###### "Synthetic datacubes"
 To assess the systematic errors of the flux measurements synthetic datacubes can be simulated mimicking the observational conditions. 
