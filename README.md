@@ -37,19 +37,19 @@ VSAT-3D is part of the Valparaíso Stacking Analysis Tool (VSAT), it provide a s
    - Auxiliary functions for the stacking analysis.
 
 ## Parameters
-VSAT-3D generates composite datacubes combining them following a channel by channel pixel by pixel strategy. At this moment it is only possible to comibine fits files which have the same spectral/veolicity resolutio, although this does not necessary means they possess the same number of channels wich can be easily corrected with VSAT. VSAT was created for combining image fits files created with CASA from ALMA interferometric observations, however it is possible to combine 3D datcubes from any other instrument (_i.e. IFU_). After the composite datacubes are generated, it is possible to measure the flux of a source through a gaussian model. 
+VSAT-3D generates composite datacubes combining them following a channel by channel pixel by pixel strategy. At this moment it is only possible to comibine fits files which have the same spectral/veolicity resolution. VSAT was created for combining image fits files created with CASA from ALMA interferometric observations, however it is possible to combine 3D datcubes from any other instrument (_i.e. IFU_). After the composite datacubes are generated, it is possible to measure the flux of a source through a 3D gaussian model. 
 
 ###### "Stacking"
-There are two different options to use the stacking procedure a _lite_ version (```stack_lite=True```) which will generate _sum, median and average_ compositte datacubes and a _full_ version (```stack_lite=False```) which additionally will create _histograms, weighted average, percentiles_ composite datacubes. By default the lite version is defined. Through ```sigma_clipping=True```it is possible to exlude outliers that exceed n-times (```sigma_cut```) the mean/median ``` sigma_cen_fct ``` of the stacked pixels. 
+There are two different options to use the stacking procedure: ```stack_lite=True```will generate _sum, median and average_ compositte datacubes and ```stack_lite=False```  will additionally create _histograms, weighted average, percentiles_ composite datacubes. By default the lite version is defined. Through ```sigma_clipping=True```it is possible to exlude outliers that exceed n-times (```sigma_cut```) the mean/median ``` sigma_cen_fct ``` of the combined pixels. 
 
 ###### "Stamps"
-To measure the flux it is possible to create smaller datacubes ("_stamps_") around any partticular _ra, dec_ position withiin a circular region. ```apertures_measu``` defines the flux measurement regioin, while ```apertures_inner``` and ```apertures_outer```define an outter ring useful for noise estimations.  
+To measure the flux it is possible to create smaller datacubes ("_stamps_") around any particular _ra, dec_ position within a circular region. ```apertures_measu``` defines the flux measurement regioin, while ```apertures_inner``` and ```apertures_outer```define the radii of an outter ring useful for noise estimations.  
 
 ###### "Fitting"
-The flux estimation is computed analytically through a 3D-gauussian model. First the spectrral/velociity location of the maximum flux emission is determined through a 1D gaussian model, althoough it is possible to fix the channel at which the peak is located. Then the flux contained in a region previously defined by ```apertures_measu```is computed through a 2D gaussian profile to obtain the size ($\sigma_{x,y}$) and the amplitude (_A_).
+The flux estimation is computed analytically through a 3D-gauussian model: a one dimensional gaussina describing the flux spectral dependency and a 2D gauussian for the flux spatial disttribution. First the spectrral/velociity location of the maximum flux emission is determined through a 1D gaussian model, althoough it is possible to fix the channel at which the peak is located. Then the flux contained in a region previously defined by ```apertures_measu```is computed through a 2D gaussian profile to obtain the size ($\sigma_{x,y}$) and the amplitude (_A_).
 
 ###### "MCMC"
-To compute the Confident Intervals (CIs) of the flux measurments it is possible to run Monte Carlo simulations defined by the flux measurements previously computed and by the statistical properties of the used sample. ```iterations_mc``` define the nuumer of repetititions, ```plot_dist_hist=True``` will create hiistograms of the simulations if the lines defined by ```line1```and ```line2```.
+To compute the Confident Intervals (CIs) of the flux measurments it is possible to run Monte Carlo simulations defined by the flux measurements previously computed and by the statistical properties of the stacked sample. ```iterations_mc``` define the number of repetitions, ```plot_dist_hist=True``` will create hiistograms of the simulations of the lines defined by ```line1```and ```line2```.
 
 ## Example
 
@@ -98,8 +98,7 @@ If ```stack_lite = False``` additional compsoiite spectra will be gnerated:
 ###### "Stamps"
 To measure the source's flux, smaller circular datacubes along the veloocity/frequency axis can be created. The following will create a 15'', 10'' and 20'' datacubes. In this example these regions use the image center (```X0_F, Y0_F```) as reference but this can be defined with the ```X_C,Y_C```parameters.
 
-```
-python
+```python
 Slices_Files = Cube_Spatial_Extract_Circular(cube2bplot,
 						X0_F,Y0_F,
 						mask_radi_px_in,mask_radi_as_in,
@@ -127,8 +126,7 @@ The datacubes will be located in the ```~/Example/Stack_Results-13CO-3D/STAMPS/2
 
 Which can then be plotted to generate individual stamps of each channel cube. 
 
-```
-python
+```python
 Plot_Cube_Slices(Slices_Files[0],Slices_Files[1],Slices_Files[2],
 		Slices_Files[3],Slices_Files[4],Slices_Files[5],
 		frq_r=restframe_frequency, prefix=prefix_line,dest_dir_plt=stm_dir_plt)
@@ -142,8 +140,7 @@ Plot_Cube_Slices(Slices_Files[0],Slices_Files[1],Slices_Files[2],
 ###### "Line Fit"
 First to identify the locatioion of the maximum flux in the spectral axis.
 
-```
-python
+```python
 fit_1D_Gaussian(cube2bplot6,verbose=True,amplitude=0.001,
 	mean=-60,stddev=element[0]/2. * np.sqrt(2. *np.log(2.)),
 	slc_nmb=slice_nmb,max_rng=True,cubewdthv=element[0],
@@ -154,10 +151,9 @@ fit_1D_Gaussian(cube2bplot6,verbose=True,amplitude=0.001,
 ![Alt text](./Figures/12CO-12CO-CII_HATLAS-RDS_B-0-stk-avg-250kms-crc-10as_msk_in-1DGF.jpg?raw=true "Stacked spectra computed COSMOS field.")
 
 
-Then a 1D gaussian profile is itted.
+Then a 1D gaussian profile is fitted.
 
-```
-python
+```python
 Cube_fit_1D_Gaussian(cube2bplot6,
 			Cube2bPlot_1D_Err  = cube2bplot4        ,verbose = True   ,
 			amplitude          = 0.001              ,mean    = -60    ,stddev    = element[0]/2. * np.sqrt(2. * np.log(2.)),
@@ -171,7 +167,7 @@ Cube_fit_1D_Gaussian(cube2bplot6,
 ```
 
 
-![Alt text](./Figures/12CO-12CO-CII_HATLAS-RDS_B-0-stk-avg-250kms-crc-15as_msk_ms-2DS.jpg?raw=true "Stacked spectra computed COSMOS field.")
+![Alt text](./Figures/12CO-CII_HATLAS-RDS_B-0-stk-avg-250kms-crc-15as_dta_ms-1DGF.jpg?raw=true "Stacked spectra computed COSMOS field.")
 
 After this an image of the central channel at which the flux maximum is located and a collapsed image considering the channalesd defined by the fwhm previously fitted can be created.
 
